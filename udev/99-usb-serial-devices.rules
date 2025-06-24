@@ -1,0 +1,36 @@
+# Udev rules for persistent USB serial device naming
+# This file should be copied to /etc/udev/rules.d/99-usb-serial-devices.rules
+
+# Scale Device - FTDI USB-to-Serial Converter (example VID:PID 0403:6001)
+# Adjust ATTRS{idVendor} and ATTRS{idProduct} to match your actual device
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", ATTRS{serial}=="*SCALE*", SYMLINK+="ttyUSB_SCALE", GROUP="dialout", MODE="0660", TAG+="systemd", ENV{SYSTEMD_WANTS}="scale-daemon.service"
+
+# Alternative rule if serial number doesn't contain "SCALE" - use device path
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6001", KERNELS=="1-1.2:1.0", SYMLINK+="ttyUSB_SCALE", GROUP="dialout", MODE="0660", TAG+="systemd", ENV{SYSTEMD_WANTS}="scale-daemon.service"
+
+# Printer Device - FTDI USB-to-Serial Converter (example VID:PID 0403:6015)
+# Adjust ATTRS{idVendor} and ATTRS{idProduct} to match your actual device
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="*PRINTER*", SYMLINK+="ttyUSB_PRINTER", GROUP="dialout", MODE="0660", TAG+="systemd", ENV{SYSTEMD_WANTS}="printer-daemon.service"
+
+# Alternative rule if serial number doesn't contain "PRINTER" - use device path
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", KERNELS=="1-1.3:1.0", SYMLINK+="ttyUSB_PRINTER", GROUP="dialout", MODE="0660", TAG+="systemd", ENV{SYSTEMD_WANTS}="printer-daemon.service"
+
+# Generic fallback rules for common USB-to-Serial chips
+# Prolific PL2303 (VID:PID 067b:2303)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", ATTRS{serial}=="*SCALE*", SYMLINK+="ttyUSB_SCALE", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="067b", ATTRS{idProduct}=="2303", ATTRS{serial}=="*PRINTER*", SYMLINK+="ttyUSB_PRINTER", GROUP="dialout", MODE="0660"
+
+# CP210x Silicon Labs (VID:PID 10c4:ea60)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="*SCALE*", SYMLINK+="ttyUSB_SCALE", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea60", ATTRS{serial}=="*PRINTER*", SYMLINK+="ttyUSB_PRINTER", GROUP="dialout", MODE="0660"
+
+# CH340/CH341 (VID:PID 1a86:7523)
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", ATTRS{serial}=="*SCALE*", SYMLINK+="ttyUSB_SCALE", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", ATTRS{serial}=="*PRINTER*", SYMLINK+="ttyUSB_PRINTER", GROUP="dialout", MODE="0660"
+
+# SELinux context for container device access
+SUBSYSTEM=="tty", KERNEL=="ttyUSB*", RUN+="/usr/bin/chcon system_u:object_r:container_device_t:s0 /dev/$name"
+
+# Apply SELinux context to symlinks as well
+ACTION=="add", SUBSYSTEM=="tty", SYMLINK=="ttyUSB_SCALE", RUN+="/usr/bin/chcon system_u:object_r:container_device_t:s0 /dev/ttyUSB_SCALE"
+ACTION=="add", SUBSYSTEM=="tty", SYMLINK=="ttyUSB_PRINTER", RUN+="/usr/bin/chcon system_u:object_r:container_device_t:s0 /dev/ttyUSB_PRINTER"
