@@ -19,7 +19,7 @@ scale-daemon = "scale_daemon.main:main"
 pytest = "^8.3"
 pytest-cov = "^6.1"
 black = "^25.1"
-flake8 = "^7.2"
+flake8 = "^7.3"
 
 [build-system]
 requires = ["poetry-core"]
