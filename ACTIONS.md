@@ -34,7 +34,7 @@ This table shows which steps execute on which platforms for different trigger ev
 | `build.yml → publish.yml` | Publish images (called) | `publish_images` | Log in to GitHub Container Registry | `release` | ✅ | ❌ |  |
 | `build.yml → publish.yml` | Publish images (called) | `publish_images` | Generate image metadata for ${{ matrix.daemon.image_name }} | `release` | ✅ | ❌ |  |
 | `build.yml → publish.yml` | Publish images (called) | `publish_images` | Build and push ${{ matrix.daemon.name }} image | `release` | ✅ | ❌ |  |
-| `codeql.yml` | CodeQL Advanced | `analyze` | Checkout repository | `pull_request, push_master` | ✅ | ❌ |  |
-| `codeql.yml` | CodeQL Advanced | `analyze` | Initialize CodeQL | `pull_request, push_master` | ✅ | ❌ |  |
-| `codeql.yml` | CodeQL Advanced | `analyze` | Unnamed step | `pull_request, push_master` | ✅ | ❌ | matrix.build-mode == 'manual' |
-| `codeql.yml` | CodeQL Advanced | `analyze` | Perform CodeQL Analysis | `pull_request, push_master` | ✅ | ❌ |  |
+| `codeql.yml` | CodeQL Advanced | `analyze` | Checkout repository | `merge_group, pull_request, push_master` | ✅ | ❌ |  |
+| `codeql.yml` | CodeQL Advanced | `analyze` | Initialize CodeQL | `merge_group, pull_request, push_master` | ✅ | ❌ |  |
+| `codeql.yml` | CodeQL Advanced | `analyze` | Unnamed step | `merge_group, pull_request, push_master` | ✅ | ❌ | matrix.build-mode == 'manual' |
+| `codeql.yml` | CodeQL Advanced | `analyze` | Perform CodeQL Analysis | `merge_group, pull_request, push_master` | ✅ | ❌ |  |
