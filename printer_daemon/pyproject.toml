@@ -19,7 +19,7 @@ printer-daemon = "printer_daemon.main:main"
 pytest = "^8.4"
 pytest-cov = "^6.2"
 black = "^25.1"
-flake8 = "^7.2"
+flake8 = "^7.3"
 
 [build-system]
 requires = ["poetry-core"]
