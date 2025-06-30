@@ -21,7 +21,7 @@ env:
 jobs:
   unit_test_images:
     name: Run unit tests
-    runs-on: ${{ (matrix.platform == 'linux/arm64' && 'ubuntu-latest-arm64') || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.platform == 'linux/arm64' && 'blacksmith-4vcpu-ubuntu-2404-arm') || 'ubuntu-latest' }}
     permissions:
       contents: read # No package:read permission needed
     strategy:

@@ -18,7 +18,7 @@ on:
 
 jobs:
   publish_images:
-    runs-on: ubuntu-latest # Run on a single runner
+    runs-on: blacksmith-4vcpu-ubuntu-2404 # Run on a single runner
     permissions:
       contents: read
       packages: write # Needed to push to GHCR
