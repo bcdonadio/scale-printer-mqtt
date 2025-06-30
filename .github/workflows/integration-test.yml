@@ -21,7 +21,7 @@ env:
 jobs:
   integration_test:
     name: Run integration test with Compose
-    runs-on: ${{ (matrix.platform == 'linux/arm64' && 'ubuntu-latest-arm64') || 'ubuntu-latest' }}
+    runs-on: ${{ (matrix.platform == 'linux/arm64' && 'blacksmith-4vcpu-ubuntu-2404-arm') || 'ubuntu-latest' }}
     timeout-minutes: 5
     permissions:
       contents: read # No package:read permission needed
