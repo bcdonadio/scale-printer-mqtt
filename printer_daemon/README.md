@@ -12,20 +12,65 @@ This application subscribes to an MQTTv5 topic and prints any received messages 
 ## Prerequisites
 
 - Python 3.12+
-- Poetry
+- pip (Python package installer)
 - A serial-connected ESC/POS printer or an emulated device.
 - Access to an MQTTv5 broker.
 
 ## Installation
 
-1.  **Clone the repository** (or receive this directory).
-2.  **Navigate to the `printer_daemon` directory**:
+### Option 1: Local Development Installation
+
+1. **Clone the repository** (or receive this directory).
+2. **Navigate to the `printer_daemon` directory**:
+
     ```bash
     cd printer_daemon
     ```
-3.  **Install dependencies** using Poetry:
+
+3. **Install the package in development mode**:
+
     ```bash
-    poetry install
+    pip install -e .
+    ```
+
+4. **For development dependencies**, install them separately:
+
+    ```bash
+    pip install -r requirements-dev.txt
+    ```
+
+### Option 2: System-wide Installation with pipx (Recommended for CLI tools)
+
+1. **Install pipx** if you haven't already:
+
+    ```bash
+    pip install pipx
+    ```
+
+2. **Navigate to the `printer_daemon` directory**:
+
+    ```bash
+    cd printer_daemon
+    ```
+
+3. **Install the daemon using pipx**:
+
+    ```bash
+    pipx install .
+    ```
+
+### Option 3: Direct pip installation
+
+1. **Navigate to the `printer_daemon` directory**:
+
+    ```bash
+    cd printer_daemon
+    ```
+
+2. **Install the package**:
+
+    ```bash
+    pip install .
     ```
 
 ## Configuration
@@ -58,10 +103,24 @@ MQTT_USE_TLS=false
 
 ## Running the Daemon
 
-Once configured, you can run the daemon using the Poetry script entry point:
+Once configured, you can run the daemon using one of these methods:
+
+### If installed with pipx
 
 ```bash
-poetry run printer-daemon
+printer-daemon
+```
+
+### If installed with pip (development mode)
+
+```bash
+printer-daemon
+```
+
+### If running from source without installation
+
+```bash
+python -m printer_daemon.main
 ```
 
 The application will start, connect to the serial device and the MQTT broker, and begin listening for messages to print.
@@ -70,5 +129,13 @@ The application will start, connect to the serial device and the MQTT broker, an
 
 To run the suite of unit tests, execute the following command:
 
+### If you installed development dependencies
+
 ```bash
-poetry run pytest
+pytest
+```
+
+### Or run tests from the source directory
+
+```bash
+python -m pytest
